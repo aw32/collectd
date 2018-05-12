@@ -1970,6 +1970,15 @@ syslog_la_SOURCES = src/syslog.c
 syslog_la_LDFLAGS = $(PLUGIN_LDFLAGS)
 endif
 
+if BUILD_PLUGIN_SYSTEMD_STATS
+pkglib_LTLIBRARIES += systemd_stats.la
+systemd_stats_la_SOURCES = \
+	src/systemd_stats.c
+systemd_stats_la_CFLAGS = $(AM_CFLAGS) $(BUILD_WITH_LIBSYSTEMD_STATS_CFLAGS)
+systemd_stats_la_LDFLAGS = $(PLUGIN_LDFLAGS) $(BUILD_WITH_LIBSYSTEMD_STATS_LDFLAGS)
+systemd_stats_la_LIBADD = $(BUILD_WITH_LIBSYSTEMD_STATS_LIBS) -lsystemd
+endif
+
 if BUILD_PLUGIN_TABLE
 pkglib_LTLIBRARIES += table.la
 table_la_SOURCES = src/table.c

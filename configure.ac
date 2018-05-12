@@ -928,7 +928,7 @@ AC_CHECK_FUNCS([thread_info], [have_thread_info="yes"], [have_thread_info="no"])
 # Check for strptime {{{
 if test "x$GCC" = "xyes"; then
   SAVE_CFLAGS="$CFLAGS"
-  CFLAGS="$CFLAGS -Wall -Wextra -Werror"
+  CFLAGS="$CFLAGS -Wall -Wextra "
 fi
 
 AC_CHECK_FUNCS([strptime], [have_strptime="yes"], [have_strptime="no"])
@@ -999,10 +999,10 @@ fi
 
 # Check for timegm {{{
 
-# These checks need -Werror because implicit function declarations are only a
+# These checks need  because implicit function declarations are only a
 # warning ...
 SAVE_CFLAGS="$CFLAGS"
-CFLAGS="$CFLAGS -Werror"
+CFLAGS="$CFLAGS "
 
 AC_CACHE_CHECK([for timegm],
   [c_cv_have_timegm],
@@ -5200,6 +5200,22 @@ AC_SUBST([BUILD_WITH_LIBROUTEROS_CPPFLAGS])
 AC_SUBST([BUILD_WITH_LIBROUTEROS_LDFLAGS])
 # }}}
 
+# --with-libsystemd {{{
+AC_ARG_WITH([libsystemd],
+  [AC_HELP_STRING([--with--libsystemd@<:@=PREFIX@:>@], [Path to libsystemd.])],
+  [
+    if test "x$withval" != "xno" && test "x$withval" != "xyes"; then
+      libsystemd_cflags="-I$withval/include"
+      libsystemd_ldflags="-L$withval/lib"
+      with_libsystemd="yes"
+    else
+      with_libsystemd="$withval"
+    fi
+  ],
+  [with_libsystemd="yes"]
+)
+# }}}
+
 # --with-librrd {{{
 librrd_threadsafe="no"
 librrd_rrdc_update="no"
@@ -6555,7 +6571,7 @@ collectd features:])
 AC_COLLECTD([debug],     [enable],  [feature], [debugging])
 AC_COLLECTD([daemon],    [disable], [feature], [daemon mode])
 AC_COLLECTD([getifaddrs],[enable],  [feature], [getifaddrs under Linux])
-AC_COLLECTD([werror],    [disable], [feature], [building with -Werror])
+AC_COLLECTD([werror],    [disable], [feature], [building with ])
 
 dependency_warning="no"
 dependency_error="no"
@@ -7133,6 +7149,7 @@ AC_PLUGIN([swap],                [$plugin_swap],              [Swap usage statis
 AC_PLUGIN([synproxy],            [$plugin_synproxy],          [Synproxy stats plugin])
 AC_PLUGIN([sysevent],            [$plugin_sysevent],          [rsyslog events])
 AC_PLUGIN([syslog],              [$have_syslog],              [Syslog logging plugin])
+AC_PLUGIN([systemd_stats],       [$with_libsystemd],        [Systemd sd-dbus service statistics])
 AC_PLUGIN([table],               [yes],                       [Parsing of tabular data])
 AC_PLUGIN([tail],                [yes],                       [Parsing of logfiles])
 AC_PLUGIN([tail_csv],            [yes],                       [Parsing of CSV files])
@@ -7427,6 +7444,7 @@ AC_MSG_RESULT([    libsigrok   . . . . . $with_libsigrok])
 AC_MSG_RESULT([    libssl  . . . . . . . $with_libssl])
 AC_MSG_RESULT([    libslurm .  . . . . . $with_libslurm])
 AC_MSG_RESULT([    libstatgrab . . . . . $with_libstatgrab])
+AC_MSG_RESULT([    libsystemd  . . . . . $with_libsystemd])
 AC_MSG_RESULT([    libtokyotyrant  . . . $with_libtokyotyrant])
 AC_MSG_RESULT([    libudev . . . . . . . $with_libudev])
 AC_MSG_RESULT([    libupsclient  . . . . $with_libupsclient])
@@ -7577,6 +7595,7 @@ AC_MSG_RESULT([    swap  . . . . . . . . $enable_swap])
 AC_MSG_RESULT([    synproxy  . . . . . . $enable_synproxy])
 AC_MSG_RESULT([    sysevent. . . . . . . $enable_sysevent])
 AC_MSG_RESULT([    syslog  . . . . . . . $enable_syslog])
+AC_MSG_RESULT([    systemd_stats . . . . $enable_systemd_stats])
 AC_MSG_RESULT([    table . . . . . . . . $enable_table])
 AC_MSG_RESULT([    tail_csv  . . . . . . $enable_tail_csv])
 AC_MSG_RESULT([    tail  . . . . . . . . $enable_tail])
