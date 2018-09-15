@@ -71,7 +71,8 @@ static int find_service(struct service *service) {
     return -1;
   }
   // check if bus is open
-  if (sd_bus_is_open(bus) != 0) {
+  if (sd_bus_is_open(bus) < 0) {
+      ERROR("systemd_stats: reopen dbus connection");
     r = sd_bus_open_system(&bus);
     if (r < 0) {
       ERROR("systemd_stats: dbus connection failed");
