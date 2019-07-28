@@ -9081,6 +9081,47 @@ B<FAILURE> will only send failures to syslog.
 
 =back
 
+=head2 Plugin C<systemd_stats>
+
+The I<systemd_stats> plugin gathers statistics about systemd services.
+The plugin connects to systemd using DBUS and requests the following service properties:
+
+ - CPUUsageNSec
+ - IPEgressBytes
+ - IPEgressPackets
+ - IPIngressBytes
+ - IPIngressPackets
+ - MemoryCurrent
+ - TasksCurrent
+
+These properties can also be printed using "systemctl show service-name".
+Activate measurement of these metrics by setting the following options in the service definition or their "Default" prefixed counterparts in the system configuration:
+
+  CPUAccounting=true
+  MemoryAccounting=true
+  TasksAccounting=true
+  IOAccounting=true
+  IPAccounting=true
+
+Add services to the plugin by using the following plugin option:
+
+=over 4
+
+=item B<Service> I<String>
+
+For the configured services the values are requested from systemd.
+Use the full service name including the ".service" suffix.
+For each service an instance will be created of type "sd_service_stats".
+
+=back
+
+B<Example configuration:>
+
+  <Plugin systemd_stats>
+    Service "postfix.service"
+    Service "dovecot.service"
+  </Plugin>
+
 =head2 Plugin C<table>
 
 The C<table plugin> provides generic means to parse tabular data and dispatch
