@@ -58,6 +58,7 @@ EXTRA_DIST = \
 	src/collectd-perl.pod \
 	src/collectd-python.pod \
 	src/collectd-snmp.pod \
+	src/collectd-systemd-stats.pod \
 	src/collectd-tg.pod \
 	src/collectd-threshold.pod \
 	src/collectd-unixsock.pod \
@@ -91,6 +92,7 @@ dist_man_MANS = \
 	src/collectd-tg.1 \
 	src/collectd-threshold.5 \
 	src/collectd-unixsock.5 \
+	src/collectd-systemd-stats.5 \
 	src/types.db.5
 
 
